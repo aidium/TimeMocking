@@ -29,17 +29,15 @@ public class TimingTest {
 	@Test(expected = RuntimeException.class)
 	public void shouldTimoutAfterFourthCallAndThrowBadImplementation() {
 		// Given
-		given(dataGeneratorMock.generateDatasetWithIndex(anyInt())).will(
-				new Answer<List<Integer>>() {
+		given(dataGeneratorMock.generateDatasetWithIndex(anyInt())).will(new Answer<List<Integer>>() {
 
-					@Override
-					public List<Integer> answer(InvocationOnMock invocation)
-							throws Throwable {
-						// Simulate work
-						Thread.sleep(10);
-						return Arrays.asList(1);
-					}
-				});
+			@Override
+			public List<Integer> answer(InvocationOnMock invocation) throws Throwable {
+				// Simulate work
+				Thread.sleep(10);
+				return Arrays.asList(1);
+			}
+		});
 
 		try {
 			// When
@@ -47,32 +45,31 @@ public class TimingTest {
 			timing.processLotsOfDataWithTimout(timeout);
 		} finally {
 			// Then
-			verify(dataGeneratorMock, times(4)).generateDatasetWithIndex(
-					anyInt());
+			verify(dataGeneratorMock, times(4)).generateDatasetWithIndex(anyInt());
 		}
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void shouldTimoutAfterFourthCallAndThrow() {
 		// Given
-		given(dataGeneratorMock.generateDatasetWithIndex(anyInt())).will(
-				new Answer<List<Integer>>() {
+		TimeProvider.instance().useMockTime(System.currentTimeMillis());
+		given(dataGeneratorMock.generateDatasetWithIndex(anyInt())).will(new Answer<List<Integer>>() {
 
-					@Override
-					public List<Integer> answer(InvocationOnMock invocation)
-							throws Throwable {
-						return Arrays.asList(1);
-					}
-				});
+			@Override
+			public List<Integer> answer(InvocationOnMock invocation) throws Throwable {
+				TimeProvider.instance().tick(1);
+				return Arrays.asList(1);
+			}
+		});
 
 		try {
 			// When
-			Date timeout = new Date(System.currentTimeMillis() + 30);
+			Date timeout = new Date(System.currentTimeMillis() + 3);
 			timing.processLotsOfDataWithTimout(timeout);
 		} finally {
 			// Then
-			verify(dataGeneratorMock, times(4)).generateDatasetWithIndex(
-					anyInt());
+			verify(dataGeneratorMock, times(4)).generateDatasetWithIndex(anyInt());
+			TimeProvider.instance().useSystemTime();
 		}
 	}
 }
