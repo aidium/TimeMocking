@@ -1,0 +1,6 @@
+<aspectj>
+	<aspects>
+		<aspect name="se.aidium.mock.aspect.SystemTimeMockAspect" />
+	</aspects>
+	<weaver options="-verbose -showWeaveInfo" />
+</aspectj>

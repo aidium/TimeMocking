@@ -57,6 +57,7 @@ public class TimingTest {
 
 			@Override
 			public List<Integer> answer(InvocationOnMock invocation) throws Throwable {
+				// Simulate work
 				TimeProvider.instance().tick(1);
 				return Arrays.asList(1);
 			}

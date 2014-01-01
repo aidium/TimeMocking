@@ -1,9 +1,0 @@
-<aspectj>
-	<aspects>
-		<aspect name="se.aidium.mock.aspect.SystemTimeMockAspect" />
-	</aspects>
-	<weaver options="-verbose">
-<!-- 		<include within="java.*" /> -->
-<!-- 		<include within="se.aidium.*" /> -->
-	</weaver>
-</aspectj>

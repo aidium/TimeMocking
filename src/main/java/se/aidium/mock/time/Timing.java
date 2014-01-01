@@ -19,8 +19,8 @@ public class Timing {
 	}
 
 	private void checkForTimeout(Date timeout) {
-		// if (new Date(System.currentTimeMillis()).after(timeout)) {
-		if (new Date().after(timeout)) {
+		if (new Date(System.currentTimeMillis()).after(timeout)) {
+			// if (new Date().after(timeout)) {
 			throw new RuntimeException("Timeout");
 		}
 	}
